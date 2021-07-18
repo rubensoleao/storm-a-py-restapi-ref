@@ -21,3 +21,11 @@ source venv/bin/activate  # Activate the virtualenv
 pip install -r requirements/development.txt
 ```
 
+## Database
+
+Database is set up using the mysql docker image in port `32000`. It can be set up seperatly using the following comamnds:
+
+Start DB: 
+- `make db-up`
+Stop DB:
+- `make db-down`
