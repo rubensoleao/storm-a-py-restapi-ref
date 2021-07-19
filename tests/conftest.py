@@ -8,6 +8,11 @@ def fixture_client():
     return client
 
 
+@pytest.fixture(name="mock_id")
+def fixture_mock_id():
+    return "-1"
+
+
 @pytest.fixture(name="mock_schedule")
 def fixture_mock_schedule():
     return {
@@ -20,12 +25,13 @@ def fixture_mock_schedule():
 
 
 @pytest.fixture(name="db_init")
-def fixture_db_init(mock_schedule):
+def fixture_db_init(mock_schedule, mock_id):
     with client.get_session() as session:
-        init_query = "INSERT INTO MSGSCHEDULES (scheduled_date, type, destination, message, status) VALUES (:scheduled_date, :type, :destination, :message, :status)"
+        init_query = "INSERT INTO MSGSCHEDULES (id, scheduled_date, type, destination, message, status) VALUES (:id, :scheduled_date, :type, :destination, :message, :status)"
         session.execute(
             init_query,
             {
+                "id": mock_id,
                 "scheduled_date": {mock_schedule.get("scheduled_date")},
                 "type": {mock_schedule.get("type")},
                 "destination": {mock_schedule.get("destination")},

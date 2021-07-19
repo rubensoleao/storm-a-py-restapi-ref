@@ -64,7 +64,15 @@ class MsgScheduleClient(SQLClient):
 
     def get(self, id):
         with self.get_session() as session:
-            return session.query(MsgSchedules).filter(MsgSchedules.id == id).first()
+            result = session.query(MsgSchedules).filter(MsgSchedules.id == id).first()
+            return {
+                "id": result.id,
+                "scheduled_date": str(result.scheduled_date),
+                "type": result.type,
+                "destination": result.destination,
+                "message": result.message,
+                "status": result.status,
+            }
 
     def paginated(self, page, per_page):
         with self.get_session() as session:

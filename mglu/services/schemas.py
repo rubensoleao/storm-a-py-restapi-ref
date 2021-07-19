@@ -12,3 +12,16 @@ class MsgSchedulesPostRequestSchema(Schema):
 
 class MsgSchedulePostResponseSchema(Schema):
     id = Integer()
+
+
+class MsgSchedulesGetParamsSchema(Schema):
+    id = Integer()
+
+
+class MsgScheduleGetResponseSchema(Schema):
+    id = Integer()
+    scheduled_date = DateTime()
+    type = String()
+    destination = String()
+    message = String()
+    status = String()

@@ -1,6 +1,17 @@
 # pylint: disable=unused-argument
-from ..mglu.services.clients import   post_schedule
+from sqlalchemy.sql.elements import ReleaseSavepointClause
+from ..mglu.services.clients import post_schedule, get_schedule
 
-def test_post_schedule(client, mock_schedule):
+
+def test_post_schedule(client, mock_schedule, db_teardown):
     """Test posting a schedule."""
-    post_schedule(client, mock_schedule)
+    response = post_schedule(client, mock_schedule)
+
+    assert "id" in response.keys()
+
+
+def test_get_schedule(client, mock_id, db_init, db_teardown):
+    """Test getting a schedule."""
+    params = {"id": mock_id}
+    response = get_schedule(client, params)
+    assert str(response["id"]) == mock_id
