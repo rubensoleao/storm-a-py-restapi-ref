@@ -1,7 +1,7 @@
 import logging
 from contextlib import contextmanager
 
-import mglu.settings as settings
+from .. import settings
 from sqlalchemy import create_engine, delete
 from sqlalchemy.orm import Session
 
@@ -47,7 +47,7 @@ class MsgScheduleClient(SQLClient):
         finally:
             session.close()
 
-    def create(self, args):
+    def post(self, args):
         with self.get_session() as session:
             new = MsgSchedules(**args)
             session.add(new)
@@ -78,3 +78,7 @@ class MsgScheduleClient(SQLClient):
     def filter(self, args):
         with self.get_session() as session:
             return session.query(MsgSchedules).filter_by(**args).all()
+
+
+client = MsgScheduleClient()
+client.create_engine()

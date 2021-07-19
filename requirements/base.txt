@@ -1,3 +1,4 @@
+marshmallow==3.12.2
 SQLAlchemy==1.4.21
 environs==9.3.2
 PyMySQL==1.0.2

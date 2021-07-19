@@ -3,3 +3,6 @@ db-up:
 
 db-down:
 	docker-compose --file docker/docker-compose.yml down
+
+test:
+	pytest
