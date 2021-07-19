@@ -57,3 +57,21 @@ def fixture_db_teardown(mock_schedule):
             },
         )
         session.commit()
+
+
+@pytest.fixture(name="db_validate_delete")
+def fixture_db_validate_delete(mock_id):
+    yield
+
+    with client.get_session() as session:
+        teardown_query = "SELECT id FROM MSGSCHEDULES WHERE id=:id"
+        result = session.execute(
+            teardown_query,
+            {
+                "id": mock_id,
+            },
+        )
+
+        session.commit()
+
+        assert len(result.all()) == 0

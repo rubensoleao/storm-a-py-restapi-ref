@@ -25,3 +25,11 @@ class MsgScheduleGetResponseSchema(Schema):
     destination = String()
     message = String()
     status = String()
+
+
+class MsgScheduleDeleteParamsSchema(Schema):
+    id = Integer()
+
+
+class MsgScheduleDeleteResponseSchema(Schema):
+    id = Integer()

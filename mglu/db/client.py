@@ -1,3 +1,4 @@
+from copy import Error
 import logging
 from contextlib import contextmanager
 
@@ -41,9 +42,9 @@ class MsgScheduleClient(SQLClient):
         try:
             yield session
             session.commit()
-        except:
+        except Error as e:
             session.rollback()
-            raise
+            raise e from e
         finally:
             session.close()
 
@@ -55,9 +56,8 @@ class MsgScheduleClient(SQLClient):
             return {"id": new.id}
 
     def delete(self, id):
-        stmt = delete(MsgSchedules).where(MsgSchedules.id == id)
-
         with self.get_session() as session:
+            stmt = delete(MsgSchedules).where(MsgSchedules.id == id)
             session.execute(stmt)
 
             return {"id": id}
