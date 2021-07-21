@@ -1,4 +1,4 @@
-# Projeto MGL
+# Projeto MGLU
 
 **Rubens Ozório Leão**
 
