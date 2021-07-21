@@ -2,6 +2,16 @@ import pytest
 from ..mglu.db.client import client
 from datetime import datetime
 
+from ..app import app
+
+
+@pytest.fixture(name="flask_client")
+def fixture_flask_client():
+    app.config["TESTING"] = True
+
+    with app.test_client() as client:
+        yield client
+
 
 @pytest.fixture(name="client")
 def fixture_client():

@@ -1,5 +1,6 @@
 -r base.txt
 
+Flask==2.0.1
 ipdb==0.13.9
 
 pylint==2.9.4
