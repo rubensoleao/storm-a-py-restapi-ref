@@ -14,3 +14,10 @@ def test_post_schedule(flask_client, mock_id, mock_schedule, db_teardown):
 
     response = flask_client.post("/msg-scheduler", json=mock_schedule)
     assert response.status_code == 201
+
+
+def test_delete_schedule(flask_client, mock_id, db_init, db_teardown):
+    """Test getting a schedule."""
+
+    response = flask_client.delete(f"/msg-scheduler?id={mock_id}")
+    assert response.status_code == 200

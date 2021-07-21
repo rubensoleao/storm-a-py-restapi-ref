@@ -4,13 +4,13 @@ from http import HTTPStatus
 from flask import Flask
 from flask import request as flask_request
 
-from .mglu.services.clients import get_schedule, post_schedule
+from .mglu.services.clients import get_schedule, post_schedule, delete_schedule
 from .mglu.db.client import client
 
 app = Flask(__name__)
 
 
-@app.route("/msg-scheduler", methods=["POST", "GET"])
+@app.route("/msg-scheduler", methods=["POST", "GET", "DELETE"])
 def hello_world():
     if flask_request.method == "POST":
         request_data = flask_request.get_json()
@@ -24,6 +24,14 @@ def hello_world():
     elif flask_request.method == "GET":
         request_id = {"id": flask_request.args.get("id")}
         processed_response = get_schedule(client, request_id)
+        return app.response_class(
+            status=HTTPStatus.OK,
+            response=json.dumps(processed_response),
+            mimetype="application/json",
+        )
+    elif flask_request.method == "DELETE":
+        request_id = {"id": flask_request.args.get("id")}
+        processed_response = delete_schedule(client, request_id)
         return app.response_class(
             status=HTTPStatus.OK,
             response=json.dumps(processed_response),
