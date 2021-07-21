@@ -4,6 +4,9 @@ db-up:
 db-down:
 	docker-compose --file docker/docker-compose.yml down
 
+init-db:
+	python init-tables.py
+
 test:
 	pytest
 
