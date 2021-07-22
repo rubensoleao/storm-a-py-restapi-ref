@@ -13,3 +13,10 @@ def test_missing_POST_data(flask_client):
     assert response.status_code == 400
 
 
+def test_ivalid_call_type(flask_client, mock_schedule):
+    """If call type is not valid should get validation error"""
+    mock_schedule["type"] = "XXXXXXXXX"
+    response = flask_client.post("/msg-scheduler", json=mock_schedule)
+
+    assert response.status_code == 400
+    assert "message" in response.json.keys()

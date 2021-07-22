@@ -21,6 +21,13 @@ class MsgSchedulesPostRequestSchema(Schema):
         data["status"] = "waiting"
         return data
 
+    @validates("type")
+    def validate_type(self, value):
+        if value not in destination_types:
+            raise ValidationError(
+                f"Invalid message type must be in {destination_types!r}"
+            )
+
 
 class MsgSchedulePostResponseSchema(Schema):
     id = Integer()
