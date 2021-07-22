@@ -23,6 +23,11 @@ def fixture_mock_id():
     return "-1"
 
 
+@pytest.fixture(name="mock_destination")
+def fixture_mock_destination():
+    return "test@email.com"
+
+
 @pytest.fixture(name="mock_schedule")
 def fixture_mock_schedule():
     return {

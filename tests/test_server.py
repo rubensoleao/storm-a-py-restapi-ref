@@ -2,10 +2,16 @@
 import json
 
 
-def test_get_schedule(flask_client, mock_id, db_init, db_teardown):
-    """Test getting a schedule."""
+def test_get_schedule_id(flask_client, mock_id, db_init, db_teardown):
+    """Test getting a schedule using id."""
 
     response = flask_client.get(f"/msg-scheduler?id={mock_id}")
+    assert response.status_code == 200
+
+
+def test_get_schedule_message(flask_client, mock_destination, db_init, db_teardown):
+    """Test getting a schedule using destination."""
+    response = flask_client.get(f"/msg-scheduler?destination={mock_destination}")
     assert response.status_code == 200
 
 
