@@ -4,8 +4,11 @@ from http import HTTPStatus
 from flask import Flask
 from flask import request as flask_request
 
-from .mglu.services.functions import get_schedule, post_schedule, delete_schedule
+# from werkzeug import exceptions
+from sqlalchemy.exc import NoResultFound
+
 from .mglu.db.client import client
+from .mglu.services.functions import delete_schedule, get_schedule, post_schedule
 
 app = Flask(__name__)
 
@@ -43,3 +46,12 @@ def hello_world():
             response="Unsupported method",
             mimetype="application/json",
         )
+
+
+@app.errorhandler(NoResultFound)
+def handle_no_result(e):
+    return app.response_class(
+        status=HTTPStatus.NOT_FOUND,
+        response="The requested object was not found",
+        mimetype="application/json",
+    )

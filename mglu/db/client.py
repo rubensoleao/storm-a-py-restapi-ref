@@ -64,7 +64,7 @@ class MsgScheduleClient(SQLClient):
 
     def get(self, id):
         with self.get_session() as session:
-            result = session.query(MsgSchedules).filter(MsgSchedules.id == id).first()
+            result = session.query(MsgSchedules).filter(MsgSchedules.id == id).one()
             return {
                 "id": result.id,
                 "scheduled_date": str(result.scheduled_date),
