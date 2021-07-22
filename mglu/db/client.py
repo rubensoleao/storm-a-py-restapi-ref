@@ -62,28 +62,17 @@ class MsgScheduleClient(SQLClient):
 
             return {"id": id}
 
-    def get(self, args):
+    def get(self, args, page, limit):
         with self.get_session() as session:
             query = session.query(MsgSchedules).filter_by(**args)
+            count = query.count()
+            query = query.offset(page - 1 * limit).limit(limit)
             data = [item.__dict__ for item in query.all()]
             for item in data:
                 del item["_sa_instance_state"]
                 del item["created"]
                 item["scheduled_date"] = str(item["scheduled_date"])
-            return {"data": data}
-
-    def paginated(self, page, per_page):
-        with self.get_session() as session:
-            return (
-                session.query(MsgSchedules)
-                .offset(page * per_page)
-                .limit(per_page)
-                .all()
-            )
-
-    def filter(self, args):
-        with self.get_session() as session:
-            return session.query(MsgSchedules).filter_by(**args).all()
+            return {"data": data, "total": count, "page": page}
 
 
 client = MsgScheduleClient()

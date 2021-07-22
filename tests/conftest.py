@@ -54,6 +54,39 @@ def fixture_db_init(mock_schedule, mock_id):
     yield
 
 
+@pytest.fixture(name="db_init_multiple")
+def fixture_db_init_multiple(mock_schedule, mock_id):
+    with client.get_session() as session:
+        init_query = "INSERT INTO MSGSCHEDULES (id, scheduled_date, type, destination, message, status) VALUES (:id, :scheduled_date, :type, :destination, :message, :status)"
+        session.execute(
+            init_query,
+            {
+                "id": mock_id,
+                "scheduled_date": {mock_schedule.get("scheduled_date")},
+                "type": {mock_schedule.get("type")},
+                "destination": {mock_schedule.get("destination")},
+                "message": {mock_schedule.get("message")},
+                "status": {mock_schedule.get("status")},
+            },
+        )
+
+        init_query = "INSERT INTO MSGSCHEDULES (id, scheduled_date, type, destination, message, status) VALUES (:id, :scheduled_date, :type, :destination, :message, :status)"
+        session.execute(
+            init_query,
+            {
+                "id": "-11",
+                "scheduled_date": {mock_schedule.get("scheduled_date")},
+                "type": {mock_schedule.get("type")},
+                "destination": {mock_schedule.get("destination")},
+                "message": {mock_schedule.get("message")},
+                "status": {mock_schedule.get("status")},
+            },
+        )
+        session.commit()
+
+    yield
+
+
 @pytest.fixture(name="db_teardown")
 def fixture_db_teardown(mock_schedule):
     yield

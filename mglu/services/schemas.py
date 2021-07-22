@@ -1,7 +1,9 @@
+from re import S
 from marshmallow import Schema, post_load, pre_load
 from marshmallow.decorators import validates
 from marshmallow.exceptions import ValidationError
 from marshmallow.fields import DateTime, Integer, String, Nested, List
+from sqlalchemy.sql.roles import LimitOffsetRole
 
 from ..exceptions import MissingPostData, EmptyResult
 from ..settings import destination_types
@@ -65,11 +67,24 @@ class MsgSchedulePostResponseSchema(Schema):
 
 
 class MsgSchedulesGetParamsSchema(MsgSchedulesSchema):
-    pass
+    page = Integer(default=1)
+    limit = Integer(default=1)
+
+    @validates("page")
+    def validate_page(self, value):
+        if value <= 0:
+            raise ValueError("page must be greater than 0")
+
+    @validates("limit")
+    def validate_limit(self, value):
+        if value <= 0:
+            raise ValueError("limit must be greater than 0")
 
 
 class MsgScheduleGetResponseSchema(Schema):
     data = List(Nested(MsgSchedulesSchema))
+    page = Integer()
+    total = Integer()
 
     @post_load
     def format_data(self, data, **kwargs):

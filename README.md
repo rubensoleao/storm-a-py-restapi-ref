@@ -40,17 +40,27 @@ After the dabase is runnign the flask server can be runned locally with the comm
 
 # Endpoints
 
-The system includes 3 endpoints:
+
 
 - **GET** `/msg-scheduler?id=idnumber`
-    - params `id`: id of the requested scheduled call
+    - params 
+        - `scheduled_date`,`type`,`destination`,`message`,`status`, `id`
+        - Pagination: `page`, `limit` 
     - JSON response:
     ```
-        scheduled_date': '2021-07-21 16:45:19.665429',
-        'type': 'email',
-        'destination':'test@email.com',
-        'message': 'Hello, this is a test message',
-        'status': 'pending',
+        {
+            'data': [
+                'id': 1
+                'scheduled_date': '2021-07-21 16:45:19.665429',
+                'type': 'email',
+                'destination':'test@email.com',
+                'message': 'Hello, this is a test message',
+                'status': 'pending',
+
+                ...]
+            'page': 1
+            'total': 1
+        }
     ```
     - Successful status Code 200
 

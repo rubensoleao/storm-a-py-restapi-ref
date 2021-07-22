@@ -30,7 +30,7 @@ def msg_scheduler_POST():
 
 @app.route("/msg-scheduler", methods=["GET"])
 def msg_scheduler_GET():
-    request_id = {"id": flask_request.args.get("id")}
+    request_id = flask_request.args
     processed_response = get_schedule(client, request_id)
     return app.response_class(
         status=HTTPStatus.OK,
