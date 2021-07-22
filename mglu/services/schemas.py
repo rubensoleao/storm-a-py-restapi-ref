@@ -1,9 +1,7 @@
-from re import S
 from marshmallow import Schema, post_load, pre_load
 from marshmallow.decorators import validates
 from marshmallow.exceptions import ValidationError
 from marshmallow.fields import DateTime, Integer, String, Nested, List
-from sqlalchemy.sql.roles import LimitOffsetRole
 
 from ..exceptions import MissingPostData, EmptyResult
 from ..settings import destination_types
@@ -11,6 +9,8 @@ from .utils import validate_email, validate_phone
 
 
 class MsgSchedulesSchema(Schema):
+    """Base schema for a scheduled message"""
+
     id = Integer()
     scheduled_date = DateTime()
     type = String(max=10)
@@ -26,6 +26,8 @@ class MsgSchedulesSchema(Schema):
 
 
 class MsgSchedulesPostRequestSchema(Schema):
+    """POST request schema"""
+
     scheduled_date = DateTime(required=True)
     type = String(required=True, max=10)
     destination = String(required=True, max=30)
@@ -63,10 +65,14 @@ class MsgSchedulesPostRequestSchema(Schema):
 
 
 class MsgSchedulePostResponseSchema(Schema):
+    """POST response schema"""
+
     id = Integer()
 
 
 class MsgSchedulesGetParamsSchema(MsgSchedulesSchema):
+    """GET request schema with pagination."""
+
     page = Integer(default=1)
     limit = Integer(default=1)
 
@@ -82,6 +88,8 @@ class MsgSchedulesGetParamsSchema(MsgSchedulesSchema):
 
 
 class MsgScheduleGetResponseSchema(Schema):
+    """GET response schema with pagination"""
+
     data = List(Nested(MsgSchedulesSchema))
     page = Integer()
     total = Integer()
@@ -95,8 +103,12 @@ class MsgScheduleGetResponseSchema(Schema):
 
 
 class MsgScheduleDeleteParamsSchema(Schema):
+    """DELETE request schema"""
+
     id = Integer(required=True)
 
 
 class MsgScheduleDeleteResponseSchema(Schema):
+    """DELETE response schema"""
+
     id = Integer()

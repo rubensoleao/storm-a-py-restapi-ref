@@ -1,4 +1,3 @@
-from sqlalchemy import schema
 from . import schemas
 
 

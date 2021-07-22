@@ -1,6 +1,3 @@
-from marshmallow.exceptions import ValidationError
-
-
 class MissingPostData(Exception):
     """Raised when a required post data is missing."""
 
@@ -9,8 +6,10 @@ class MissingPostData(Exception):
     def __init__(self):
         super().__init__(self.message)
 
+
 class EmptyResult(Exception):
     """Raised when a result is empty."""
+
     message = "Empty result"
 
     def __init__(self):

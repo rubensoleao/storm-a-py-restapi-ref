@@ -30,8 +30,9 @@ class SQLClient:
         return self.engine.connect()
 
 
-# Session = sessionmaker(bind=client.engine)
 class MsgScheduleClient(SQLClient):
+    """Client that handles requests to DB for message scheduling events"""
+
     def __init__(self) -> None:
 
         super().__init__()
