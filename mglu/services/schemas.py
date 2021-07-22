@@ -2,9 +2,10 @@ from marshmallow import Schema, post_load, pre_load
 from marshmallow.decorators import validates
 from marshmallow.exceptions import ValidationError
 from marshmallow.fields import DateTime, Integer, String
-from ..exceptions import MissingPostData
 
+from ..exceptions import MissingPostData
 from ..settings import destination_types
+from .utils import validate_email, validate_phone
 
 
 class MsgSchedulesPostRequestSchema(Schema):
@@ -27,6 +28,21 @@ class MsgSchedulesPostRequestSchema(Schema):
             raise ValidationError(
                 f"Invalid message type must be in {destination_types!r}"
             )
+
+    @post_load
+    def validate_destination(self, data, **kwargs):
+        if data["type"] == "email":
+            if not validate_email(data["destination"]):
+                raise ValidationError(
+                    field_name="destination", message=f"Invalid email adress"
+                )
+        elif data["type"] in ("sms", "whatsapp"):
+            if not validate_phone(data["destination"]):
+                raise ValidationError(
+                    field_name="destination", message=f"Invalid phone number"
+                )
+
+        return data
 
 
 class MsgSchedulePostResponseSchema(Schema):
