@@ -18,8 +18,7 @@ def get_schedule(client, params):
     response_schema = schemas.MsgScheduleGetResponseSchema()
 
     validated_params = params_schema.load(params)
-    db_response = client.get(**validated_params)
-
+    db_response = client.get(validated_params)
     response = response_schema.load(db_response)
 
     return response

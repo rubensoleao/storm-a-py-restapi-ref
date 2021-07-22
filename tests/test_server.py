@@ -27,6 +27,7 @@ def test_id_not_found_get(flask_client):
     """Tests GET with an ID not found"""
 
     response = flask_client.get(f"/msg-scheduler?id=-10")
+
     assert response.status_code == 404
 
 

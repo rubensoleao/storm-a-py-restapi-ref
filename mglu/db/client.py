@@ -1,11 +1,11 @@
-from copy import Error
 import logging
 from contextlib import contextmanager
+from copy import Error
+
+from sqlalchemy import create_engine, delete
+from sqlalchemy.orm import Session, query
 
 from .. import settings
-from sqlalchemy import create_engine, delete
-from sqlalchemy.orm import Session
-
 from .models import Base, MsgSchedules
 
 
@@ -62,17 +62,15 @@ class MsgScheduleClient(SQLClient):
 
             return {"id": id}
 
-    def get(self, id):
+    def get(self, args):
         with self.get_session() as session:
-            result = session.query(MsgSchedules).filter(MsgSchedules.id == id).one()
-            return {
-                "id": result.id,
-                "scheduled_date": str(result.scheduled_date),
-                "type": result.type,
-                "destination": result.destination,
-                "message": result.message,
-                "status": result.status,
-            }
+            query = session.query(MsgSchedules).filter_by(**args)
+            data = [item.__dict__ for item in query.all()]
+            for item in data:
+                del item["_sa_instance_state"]
+                del item["created"]
+                item["scheduled_date"] = str(item["scheduled_date"])
+            return {"data": data}
 
     def paginated(self, page, per_page):
         with self.get_session() as session:

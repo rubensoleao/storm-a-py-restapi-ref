@@ -1,11 +1,26 @@
 from marshmallow import Schema, post_load, pre_load
 from marshmallow.decorators import validates
 from marshmallow.exceptions import ValidationError
-from marshmallow.fields import DateTime, Integer, String
+from marshmallow.fields import DateTime, Integer, String, Nested, List
 
-from ..exceptions import MissingPostData
+from ..exceptions import MissingPostData, EmptyResult
 from ..settings import destination_types
 from .utils import validate_email, validate_phone
+
+
+class MsgSchedulesSchema(Schema):
+    id = Integer()
+    scheduled_date = DateTime()
+    type = String(max=10)
+    destination = String(max=30)
+    message = String(max=255)
+    status = String(max=10)
+
+    @post_load
+    def format_date(self, item, many, **kwargs):
+        if item.get("scheduled_date"):
+            item["scheduled_date"] = str(item["scheduled_date"])
+        return item
 
 
 class MsgSchedulesPostRequestSchema(Schema):
@@ -49,22 +64,19 @@ class MsgSchedulePostResponseSchema(Schema):
     id = Integer()
 
 
-class MsgSchedulesGetParamsSchema(Schema):
-    id = Integer(required=True)
+class MsgSchedulesGetParamsSchema(MsgSchedulesSchema):
+    pass
 
 
 class MsgScheduleGetResponseSchema(Schema):
-    id = Integer()
-    scheduled_date = DateTime()
-    type = String()
-    destination = String()
-    message = String()
-    status = String()
+    data = List(Nested(MsgSchedulesSchema))
 
     @post_load
-    def format_date(self, item, many, **kwargs):
-        item["scheduled_date"] = str(item["scheduled_date"])
-        return item
+    def format_data(self, data, **kwargs):
+        print(data)
+        if len(data["data"]) == 0:
+            raise EmptyResult
+        return data
 
 
 class MsgScheduleDeleteParamsSchema(Schema):

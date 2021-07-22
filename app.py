@@ -6,7 +6,7 @@ from flask import request as flask_request
 from marshmallow.exceptions import ValidationError
 from sqlalchemy.exc import NoResultFound
 
-from .mglu.exceptions import MissingPostData
+from .mglu.exceptions import MissingPostData, EmptyResult
 from .mglu.db.client import client
 from .mglu.services.functions import delete_schedule, get_schedule, post_schedule
 
@@ -50,7 +50,7 @@ def msg_scheduler_DELETE():
     )
 
 
-@app.errorhandler(NoResultFound)
+@app.errorhandler(EmptyResult)
 def handle_no_result(e):
     return app.response_class(
         status=HTTPStatus.NOT_FOUND,
