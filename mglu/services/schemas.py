@@ -2,6 +2,7 @@ from marshmallow import Schema, post_load, pre_load
 from marshmallow.decorators import validates
 from marshmallow.exceptions import ValidationError
 from marshmallow.fields import DateTime, Integer, String
+from ..exceptions import MissingPostData
 
 from ..settings import destination_types
 
@@ -15,6 +16,8 @@ class MsgSchedulesPostRequestSchema(Schema):
 
     @pre_load
     def set_status_default(self, data, **kwargs):
+        if not data:
+            raise MissingPostData
         data["status"] = "waiting"
         return data
 

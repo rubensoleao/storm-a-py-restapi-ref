@@ -6,6 +6,7 @@ from flask import request as flask_request
 from marshmallow.exceptions import ValidationError
 from sqlalchemy.exc import NoResultFound
 
+from .mglu.exceptions import MissingPostData
 from .mglu.db.client import client
 from .mglu.services.functions import delete_schedule, get_schedule, post_schedule
 
@@ -16,6 +17,9 @@ app = Flask(__name__)
 def hello_world():
     if flask_request.method == "POST":
         request_data = flask_request.get_json()
+
+        if not flask_request:
+            raise MissingPostData
 
         processed_response = post_schedule(client, request_data)
 
@@ -52,6 +56,15 @@ def handle_no_result(e):
     return app.response_class(
         status=HTTPStatus.NOT_FOUND,
         response="The requested object was not found",
+        mimetype="application/json",
+    )
+
+
+@app.errorhandler(MissingPostData)
+def handle_missing_post_data(e):
+    return app.response_class(
+        status=HTTPStatus.BAD_REQUEST,
+        response="Missing POST data",
         mimetype="application/json",
     )
 
