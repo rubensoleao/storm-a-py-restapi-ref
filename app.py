@@ -4,7 +4,7 @@ from http import HTTPStatus
 from flask import Flask
 from flask import request as flask_request
 
-from .mglu.services.clients import get_schedule, post_schedule, delete_schedule
+from .mglu.services.functions import get_schedule, post_schedule, delete_schedule
 from .mglu.db.client import client
 
 app = Flask(__name__)

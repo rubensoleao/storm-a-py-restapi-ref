@@ -1,6 +1,6 @@
 # pylint: disable=unused-argument
 from sqlalchemy.sql.elements import ReleaseSavepointClause
-from ..mglu.services.clients import post_schedule, get_schedule, delete_schedule
+from ..mglu.services.functions import post_schedule, get_schedule, delete_schedule
 
 
 def test_post_schedule(client, mock_schedule, db_teardown):
