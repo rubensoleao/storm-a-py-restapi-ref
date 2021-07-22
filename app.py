@@ -3,8 +3,7 @@ from http import HTTPStatus
 
 from flask import Flask
 from flask import request as flask_request
-
-# from werkzeug import exceptions
+from marshmallow.exceptions import ValidationError
 from sqlalchemy.exc import NoResultFound
 
 from .mglu.db.client import client
@@ -53,5 +52,19 @@ def handle_no_result(e):
     return app.response_class(
         status=HTTPStatus.NOT_FOUND,
         response="The requested object was not found",
+        mimetype="application/json",
+    )
+
+
+@app.errorhandler(ValidationError)
+def handle_validation_error(e):
+    message = ""
+    for key in e.messages:
+        message += f"{key}:"
+        for item in e.messages[key]:
+            message += f" {item}"
+    return app.response_class(
+        status=HTTPStatus.BAD_REQUEST,
+        response=json.dumps({"message": message}),
         mimetype="application/json",
     )
