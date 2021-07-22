@@ -45,10 +45,6 @@ class MsgScheduleGetResponseSchema(Schema):
     message = String()
     status = String()
 
-    @pre_load
-    def format_date(self, data, many, **kwargs):
-        data["scheduled_date"] = str(data["scheduled_date"])
-
     @post_load
     def format_date(self, item, many, **kwargs):
         item["scheduled_date"] = str(item["scheduled_date"])
