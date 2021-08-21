@@ -6,9 +6,9 @@ from flask import request as flask_request
 from marshmallow.exceptions import ValidationError
 from sqlalchemy.exc import NoResultFound
 
-from .mglu.exceptions import MissingPostData, EmptyResult
-from .mglu.db.client import client
-from .mglu.services.functions import delete_schedule, get_schedule, post_schedule
+from .storm.exceptions import MissingPostData, EmptyResult
+from .storm.db.client import client
+from .storm.services.functions import delete_schedule, get_schedule, post_schedule
 
 app = Flask(__name__)
 

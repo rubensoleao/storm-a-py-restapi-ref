@@ -1,46 +1,12 @@
-# Projeto MGLU
+# STORM
 
-**Rubens Ozório Leão**
+Storm is a reference projet for a simple *python3*  REST api using *flask* as the web framework, *mySQL* for DB, *sqlAlchemy* for DB management, *marshmallow* for schemas, *pytest* for tests.
 
-Message scheduling system.
+## About
 
-## Installation
+The generated API is for an endpoint to a message schedulling system, where it can register,view and delete messages.
 
-git clone the repo **repo url**.
-
-Install a python version `3.9` enviroment. We recommend using your preffered virtual environment. For [python virtualenv](https://docs.python.org/3/tutorial/venv.html), setup a new virtuaenv in `venv` folder in the projects root directory.
-
-And install the recomendend requirements in `requirements/development.txt` using `pip` version `21.1.1`.
-
-```
-git clone repo_url
-cd repo_dir
- 
-python3 -m venv venv      # With python 3.9
-source venv/bin/activate  # Activate the virtualenv
-pip install -r requirements/development.txt
-```
-
-### Database
-
-Database is set up using the mysql docker image in port `32000`. It can be set up seperatly using the following comamnds:
-
-Start DB: 
-- `make db-up`
-Stop DB:
-- `make db-down`
-Init the DB tables
-- `make init-db`
-
-### Flask server
-
-After the dabase is runnign the flask server can be runned locally with the command 
-
-`make flask-run`
-
-# Endpoints
-
-
+### Endpoints
 
 - **GET** `/msg-scheduler?id=idnumber`
     - params 
@@ -79,3 +45,38 @@ After the dabase is runnign the flask server can be runned locally with the comm
     - JSON response:
     ```'id':'123'```
     - Successful status Code 200
+
+## Installation
+
+git clone the repo **repo url**.
+
+Install a python version `3.9` enviroment. We recommend using your preffered virtual environment. For [python virtualenv](https://docs.python.org/3/tutorial/venv.html), setup a new virtuaenv in `venv` folder in the projects root directory.
+
+And install the recomendend requirements in `requirements/development.txt` using `pip` version `21.1.1`.
+
+```
+git clone repo_url
+cd repo_dir
+ 
+python3 -m venv venv      # With python 3.9
+source venv/bin/activate  # Activate the virtualenv
+pip install -r requirements/development.txt
+```
+
+### Database
+
+Database is set up using the mysql docker image in port `32000`. It can be set up seperatly using the following comamnds:
+
+Start DB: 
+- `make db-up`
+Stop DB:
+- `make db-down`
+Init the DB tables
+- `make init-db`
+
+### Flask server
+
+After the dabase is runnign the flask server can be runned locally with the command 
+
+`make flask-run`
+

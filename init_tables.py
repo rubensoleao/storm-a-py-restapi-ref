@@ -1,4 +1,4 @@
-from mglu.db.client import SQLClient
+from storm.db.client import SQLClient
 
 
 client = SQLClient()

@@ -1,5 +1,5 @@
 import pytest
-from ..mglu.db.client import client
+from ..storm.db.client import client
 from datetime import datetime
 
 from ..app import app
