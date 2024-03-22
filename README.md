@@ -2,6 +2,8 @@
 
 Storm is a reference projet for a simple *python3*  REST api using *flask* as the web framework, *mySQL* for DB, *sqlAlchemy* for DB management, *marshmallow* for schemas, *pytest* for tests.
 
+![logo](https://github.com/rubensoleao/storm-a-py-restapi-ref/assets/7544470/7e6e73b4-132f-41a4-83ee-4697c9ff72cc)
+
 ## About
 
 The generated API is for an endpoint to a message schedulling system, where it can register,view and delete messages.
